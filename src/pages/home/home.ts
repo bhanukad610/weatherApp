@@ -12,6 +12,7 @@ export class HomePage {
   location : {
     city : string
   }
+  temp : any;
 
   constructor(public navCtrl: NavController, 
     private weatherProvider : WeatherProvider,
@@ -40,6 +41,7 @@ export class HomePage {
       
       this.weatherProvider.getWeather(this.location.city).subscribe(weather => {
         this.weather = weather.json();
+        //this.temp = weather.main.temp - 273;
         console.log("from ionViewWillEnter : ",weather);
       });
 
