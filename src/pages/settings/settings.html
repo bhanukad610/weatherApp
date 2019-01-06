@@ -12,6 +12,38 @@
     <ion-row>
       <ion-col width-100>
         <ion-list>
+            <div *ngIf = "user == null">
+
+                <ion-item>
+                    <ion-label fixed>
+                      First name
+                    </ion-label>
+                    <ion-input [(ngModel)]="user.first_name" type = "text"></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                      <ion-label fixed>
+                        Last name
+                      </ion-label>
+                      <ion-input [(ngModel)]="user.last_name" type = "text"></ion-input>
+                    </ion-item>
+
+                <ion-item>
+                    <ion-label fixed>
+                      Email
+                    </ion-label>
+                    <ion-input [(ngModel)]="user.email" type = "text"></ion-input>
+                  </ion-item>
+                
+                  <ion-item>
+                    <ion-label fixed>
+                      Password
+                    </ion-label>
+                    <ion-input [(ngModel)]="user.password" type = "Password"></ion-input>
+                  </ion-item>
+                  <button ion-button block (click) = "register(user)">Register</button>
+            </div>
+
           <form (ngSubmit) = "saveForm()">
             <ion-item>
               <ion-label fixed>
@@ -19,9 +51,13 @@
               </ion-label>
               <ion-input [(ngModel)]="city" name = "city" type = "text"></ion-input>
             </ion-item>
-            <button ion-button type = "submit" block>Save Changes</button>
 
+            
+            <button ion-button type = "submit" block>Save Changes</button>
           </form>
+          
+         
+
         </ion-list>
       </ion-col>
 

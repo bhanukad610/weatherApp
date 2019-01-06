@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, UrlSerializer } from 'ionic-angular';
 import { WeatherProvider } from '../../providers/weather/weather';
 import { Storage } from '@ionic/storage';
+import { User } from '../../models/user';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'page-home',
@@ -13,10 +15,15 @@ export class HomePage {
     city : string
   }
   temp : any;
+  user = {} as User;
+  uid;
+  report;
+  email : string;
 
   constructor(public navCtrl: NavController, 
     private weatherProvider : WeatherProvider,
-    private storage : Storage) {
+    private storage : Storage,
+    private angularFireDatabase : AngularFireDatabase) {
 
   }
 /*
@@ -29,19 +36,35 @@ export class HomePage {
 */
 
   ionViewWillEnter(){
-
+    
     this.storage.get('location').then((val) => {
       if (val != null){
         this.location = JSON.parse(val);
       }else{
         this.location = {
           "city" : "colombo"
-        };
+        }
       }
       
       this.weatherProvider.getWeather(this.location.city).subscribe(weather => {
         this.weather = weather.json();
-        console.log("from ionViewWillEnter : ",weather);
+        this.storage.get('user').then((val) => {
+          if (val != null){
+            this.user = JSON.parse(val);
+          }
+        
+        this.report = {
+          "uid" : this.user.uid,
+          "city" : this.location.city,
+          "temp" : weather.json().main.temp,
+          "description" : weather.json().weather[0].description,
+          "humidity" : weather.json().main.humidity,
+          "wind speed" : weather.json().wind.speed,
+          "pressure" : weather.json().main.pressure
+        }
+        this.angularFireDatabase.list("/report/").push(this.report);
+        console.log("from ionViewWillEnter : ",this.report);
+      });
       });
 
     });

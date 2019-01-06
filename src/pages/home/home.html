@@ -1,10 +1,14 @@
-
-
 <ion-content padding class="home">
+  <ion-grid *ngIf = "weather == null">
+  <h1 class = "location">City not found!</h1>
+  <div class="icon"><img src="https://cdn.icon-icons.com/icons2/520/PNG/512/Pin-location-error_icon-icons.com_51946.png" alt=""></div>
+  <h3 class = "desc">Please try again</h3>
+</ion-grid>
   <ion-grid *ngIf = "weather">
     <ion-row>
       <ion-col width-50 offset-25>
-        <h2 class = "location">{{weather.name}} {{weather.country}}</h2>
+        <h5 class = "hi">Hi {{user.first_name}}</h5>
+        <h2 class = "location">{{weather.name}} {{weather.sys.country}}</h2>
         <div class="icon"><img src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" alt=""></div>
         <h3 class="desc">{{weather.weather[0].description}}</h3>
         <h1 class="temp">{{weather.main.temp - 273 | number:'.1-5'}}&deg;C</h1>
